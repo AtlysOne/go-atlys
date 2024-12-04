@@ -3,6 +3,7 @@ Implementation of the ATLAS blockchain project in Go
 
 [ATLYS Blockchain Protocol](https://github.com/dewitt4/atlys-blockchain-protocol)
 
+```
 atlys/
 ├── cmd/
 │   └── atlysd/
@@ -39,3 +40,4 @@ atlys/
 ├── docs/
 ├── scripts/
 └── test/
+```
