@@ -1,9 +1,5 @@
 # ATLYS Blockchain Protocol
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Go Report Card](https://goreportcard.com/badge/github.com/atlys/go-atlys)](https://goreportcard.com/report/github.com/atlys/go-atlys)
-[![GoDoc](https://godoc.org/github.com/atlys/go-atlys?status.svg)](https://godoc.org/github.com/atlys/go-atlys)
-
 ATLYS is a next-generation cross-chain communication protocol designed to enable seamless interoperability between disparate blockchain networks. This repository contains the Go implementation of the ATLYS protocol.
 
 ## Features
