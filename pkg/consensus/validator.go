@@ -26,11 +26,11 @@ const (
 
 // Validator represents a validator node in the ATLYS network
 type Validator struct {
-	mu              sync.RWMutex
-	address         types.Address
-	publicKey       ed25519.PublicKey
-	privateKey      ed25519.PrivateKey
-	status          ValidatorStatus
+	mu             sync.RWMutex
+	address        types.Address
+	publicKey      ed25519.PublicKey
+	privateKey     ed25519.PrivateKey
+	status         ValidatorStatus
 	power          uint64
 	reputation     uint32
 	delegatedStake uint64
@@ -40,14 +40,14 @@ type Validator struct {
 
 // ValidatorConfig contains configuration parameters for the validator
 type ValidatorConfig struct {
-	MinStake           uint64
-	MaxStake           uint64
-	UnbondingPeriod    time.Duration
-	SlashingThreshold  uint32
-	ReputationDecay    float64
-	JailDuration       time.Duration
-	MaxMissedBlocks    uint32
-	BlockTimeout       time.Duration
+	MinStake          uint64
+	MaxStake          uint64
+	UnbondingPeriod   time.Duration
+	SlashingThreshold uint32
+	ReputationDecay   float64
+	JailDuration      time.Duration
+	MaxMissedBlocks   uint32
+	BlockTimeout      time.Duration
 }
 
 // ValidatorStats tracks validator performance metrics
@@ -74,10 +74,10 @@ func NewValidator(config *ValidatorConfig) (*Validator, error) {
 	return &Validator{
 		publicKey:  pub,
 		privateKey: priv,
-		status:    StatusInactive,
+		status:     StatusInactive,
 		reputation: 100, // Start with maximum reputation
-		config:    config,
-		stats:     newValidatorStats(),
+		config:     config,
+		stats:      newValidatorStats(),
 	}, nil
 }
 
@@ -155,7 +155,7 @@ func (v *Validator) ProposeBlock(transactions []types.Transaction) (*core.Block,
 
 	// Create new block
 	block := core.NewBlock(
-		v.stats.totalBlocks + 1,
+		v.stats.totalBlocks+1,
 		nil, // Previous hash will be set by chain
 		transactions,
 	)
@@ -387,20 +387,20 @@ func (v *Validator) GetStatus() map[string]interface{} {
 	defer v.mu.RUnlock()
 
 	return map[string]interface{}{
-		"address":           v.address.String(),
-		"publicKey":         hex.EncodeToString(v.publicKey),
-		"status":           v.status,
-		"power":            v.power,
-		"reputation":       v.reputation,
-		"delegatedStake":   v.delegatedStake,
-		"totalBlocks":      v.stats.totalBlocks,
-		"proposedBlocks":   v.stats.proposedBlocks,
-		"validatedBlocks":  v.stats.validatedBlocks,
-		"missedBlocks":     v.stats.missedBlocks,
-		"slashingEvents":   v.stats.slashingEvents,
-		"uptime":           v.stats.uptime.String(),
-		"lastProposed":     v.stats.lastProposedBlock,
-		"lastValidated":    v.stats.lastValidatedBlock,
+		"address":         v.address.String(),
+		"publicKey":       hex.EncodeToString(v.publicKey),
+		"status":          v.status,
+		"power":           v.power,
+		"reputation":      v.reputation,
+		"delegatedStake":  v.delegatedStake,
+		"totalBlocks":     v.stats.totalBlocks,
+		"proposedBlocks":  v.stats.proposedBlocks,
+		"validatedBlocks": v.stats.validatedBlocks,
+		"missedBlocks":    v.stats.missedBlocks,
+		"slashingEvents":  v.stats.slashingEvents,
+		"uptime":          v.stats.uptime.String(),
+		"lastProposed":    v.stats.lastProposedBlock,
+		"lastValidated":   v.stats.lastValidatedBlock,
 	}
 }
 

@@ -13,55 +13,55 @@ import (
 
 // ReputationScorer manages validator reputation scores
 type ReputationScorer struct {
-	mu              sync.RWMutex
-	scores          map[types.Address]*ValidatorScore
-	history         map[types.Address]*ScoreHistory
-	config          *ReputationConfig
-	epochManager    *EpochManager
+	mu           sync.RWMutex
+	scores       map[types.Address]*ValidatorScore
+	history      map[types.Address]*ScoreHistory
+	config       *ReputationConfig
+	epochManager *EpochManager
 }
 
 // ValidatorScore represents a validator's current reputation metrics
 type ValidatorScore struct {
 	CurrentScore    uint32    // Current reputation score (0-100)
-	BaseScore      uint32    // Base score without penalties
-	PenaltyScore   uint32    // Accumulated penalties
-	LastUpdate     time.Time // Last score update timestamp
+	BaseScore       uint32    // Base score without penalties
+	PenaltyScore    uint32    // Accumulated penalties
+	LastUpdate      time.Time // Last score update timestamp
 	ConsecutiveHits uint32    // Consecutive successful validations
-	StakeWeight    float64   // Weight based on staked amount
+	StakeWeight     float64   // Weight based on staked amount
 }
 
 // ScoreHistory tracks historical reputation data
 type ScoreHistory struct {
-	Scores        []uint32    // Historical scores
-	Updates       []time.Time // Update timestamps
-	SlashEvents   []SlashEvent
-	MaxEntries    uint32
+	Scores      []uint32    // Historical scores
+	Updates     []time.Time // Update timestamps
+	SlashEvents []SlashEvent
+	MaxEntries  uint32
 }
 
 // SlashEvent records details of a slashing event
 type SlashEvent struct {
-	Timestamp time.Time
-	Reason    string
-	Amount    uint32
+	Timestamp   time.Time
+	Reason      string
+	Amount      uint32
 	BlockHeight uint64
 }
 
 // ReputationConfig contains configuration parameters for the reputation system
 type ReputationConfig struct {
-	InitialScore         uint32
-	MinScore            uint32
-	MaxScore            uint32
-	DecayRate           float64
-	DecayInterval       time.Duration
-	UpdateInterval      time.Duration
-	BonusMultiplier     float64
-	PenaltyMultiplier   float64
-	SlashingThreshold   uint32
-	RecoveryRate        float64
-	HistorySize         uint32
-	ConsensusWeight     float64
-	StakeWeight         float64
-	UptimeWeight        float64
+	InitialScore      uint32
+	MinScore          uint32
+	MaxScore          uint32
+	DecayRate         float64
+	DecayInterval     time.Duration
+	UpdateInterval    time.Duration
+	BonusMultiplier   float64
+	PenaltyMultiplier float64
+	SlashingThreshold uint32
+	RecoveryRate      float64
+	HistorySize       uint32
+	ConsensusWeight   float64
+	StakeWeight       float64
+	UptimeWeight      float64
 }
 
 // EpochManager handles epoch-based score calculations
@@ -95,10 +95,10 @@ func (rs *ReputationScorer) RegisterValidator(address types.Address, stake uint6
 
 	// Initialize score
 	rs.scores[address] = &ValidatorScore{
-		CurrentScore:    rs.config.InitialScore,
-		BaseScore:      rs.config.InitialScore,
-		LastUpdate:     time.Now(),
-		StakeWeight:    calculateStakeWeight(stake),
+		CurrentScore: rs.config.InitialScore,
+		BaseScore:    rs.config.InitialScore,
+		LastUpdate:   time.Now(),
+		StakeWeight:  calculateStakeWeight(stake),
 	}
 
 	// Initialize history
@@ -127,8 +127,8 @@ func (rs *ReputationScorer) UpdateScore(address types.Address, success bool, met
 	// Compute weighted score
 	newScore := uint32(
 		float64(consensusScore)*rs.config.ConsensusWeight +
-		float64(stakeScore)*rs.config.StakeWeight +
-		float64(uptimeScore)*rs.config.UptimeWeight,
+			float64(stakeScore)*rs.config.StakeWeight +
+			float64(uptimeScore)*rs.config.UptimeWeight,
 	)
 
 	// Apply bounds
@@ -156,7 +156,7 @@ func (rs *ReputationScorer) SlashValidator(address types.Address, reason string,
 
 	// Calculate slash amount based on severity
 	slashAmount := rs.calculateSlashAmount(reason, score.CurrentScore)
-	
+
 	// Apply penalty
 	score.PenaltyScore += slashAmount
 	score.CurrentScore = boundScore(
@@ -265,7 +265,7 @@ func (rs *ReputationScorer) calculateSlashAmount(reason string, currentScore uin
 
 func (rs *ReputationScorer) updateHistory(address types.Address, newScore uint32) {
 	history := rs.history[address]
-	
+
 	// Add new score
 	history.Scores = append(history.Scores, newScore)
 	history.Updates = append(history.Updates, time.Now())
@@ -297,10 +297,10 @@ func boundScore(score, min, max uint32) uint32 {
 // ValidationMetrics contains metrics used for score calculation
 type ValidationMetrics struct {
 	ConsensusParticipation float64 // 0.0 to 1.0
-	Uptime                float64 // 0.0 to 1.0
-	ResponseTime          time.Duration
-	ProposedBlocks        uint64
-	ValidatedBlocks       uint64
+	Uptime                 float64 // 0.0 to 1.0
+	ResponseTime           time.Duration
+	ProposedBlocks         uint64
+	ValidatedBlocks        uint64
 }
 
 // Epoch-based calculations
@@ -310,7 +310,7 @@ func (rs *ReputationScorer) StartNewEpoch() {
 	defer rs.mu.Unlock()
 
 	rs.epochManager.currentEpoch++
-	
+
 	// Perform epoch-based score adjustments
 	for _, score := range rs.scores {
 		// Apply score decay

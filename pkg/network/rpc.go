@@ -8,10 +8,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gorilla/mux"
 	"github.com/atlys/pkg/bridge"
 	"github.com/atlys/pkg/core"
 	"github.com/atlys/pkg/types"
+	"github.com/gorilla/mux"
 )
 
 // RPCServer handles RPC requests for the ATLYS protocol
@@ -66,7 +66,7 @@ func NewRPCServer(bridge *bridge.Bridge, validator *core.Validator, config *RPCC
 func (s *RPCServer) Start() error {
 	s.httpServer = &http.Server{
 		Handler:        s.router,
-		Addr:          s.config.ListenAddr,
+		Addr:           s.config.ListenAddr,
 		ReadTimeout:    s.config.ReadTimeout,
 		WriteTimeout:   s.config.WriteTimeout,
 		MaxHeaderBytes: s.config.MaxHeaderBytes,
@@ -88,15 +88,15 @@ func (s *RPCServer) setupRoutes() {
 	// Transaction routes
 	s.router.HandleFunc("/tx/submit", s.handleSubmitTransaction).Methods("POST")
 	s.router.HandleFunc("/tx/status/{hash}", s.handleTransactionStatus).Methods("GET")
-	
+
 	// Chain state routes
 	s.router.HandleFunc("/chain/status", s.handleChainStatus).Methods("GET")
 	s.router.HandleFunc("/chain/block/{height}", s.handleGetBlock).Methods("GET")
-	
+
 	// Validator routes
 	s.router.HandleFunc("/validator/status", s.handleValidatorStatus).Methods("GET")
 	s.router.HandleFunc("/validator/register", s.handleValidatorRegistration).Methods("POST")
-	
+
 	// Bridge routes
 	s.router.HandleFunc("/bridge/assets", s.handleBridgeAssets).Methods("GET")
 	s.router.HandleFunc("/bridge/transfer", s.handleBridgeTransfer).Methods("POST")
@@ -117,7 +117,7 @@ func (s *RPCServer) handleSubmitTransaction(w http.ResponseWriter, r *http.Reque
 	}
 
 	s.writeSuccess(w, map[string]interface{}{
-		"hash": tx.Hash().String(),
+		"hash":   tx.Hash().String(),
 		"status": "submitted",
 	})
 }
@@ -176,9 +176,9 @@ func (s *RPCServer) handleValidatorStatus(w http.ResponseWriter, r *http.Request
 
 func (s *RPCServer) handleValidatorRegistration(w http.ResponseWriter, r *http.Request) {
 	var req struct {
-		Address    string `json:"address"`
-		PublicKey  string `json:"publicKey"`
-		Signature  string `json:"signature"`
+		Address   string `json:"address"`
+		PublicKey string `json:"publicKey"`
+		Signature string `json:"signature"`
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -192,7 +192,7 @@ func (s *RPCServer) handleValidatorRegistration(w http.ResponseWriter, r *http.R
 	}
 
 	s.writeSuccess(w, map[string]string{
-		"status": "registered",
+		"status":  "registered",
 		"address": req.Address,
 	})
 }
@@ -211,11 +211,11 @@ func (s *RPCServer) handleBridgeAssets(w http.ResponseWriter, r *http.Request) {
 
 func (s *RPCServer) handleBridgeTransfer(w http.ResponseWriter, r *http.Request) {
 	var req struct {
-		SourceChain  string `json:"sourceChain"`
-		DestChain    string `json:"destChain"`
-		Asset        string `json:"asset"`
-		Amount       string `json:"amount"`
-		Recipient    string `json:"recipient"`
+		SourceChain string `json:"sourceChain"`
+		DestChain   string `json:"destChain"`
+		Asset       string `json:"asset"`
+		Amount      string `json:"amount"`
+		Recipient   string `json:"recipient"`
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {

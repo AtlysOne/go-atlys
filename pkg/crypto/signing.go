@@ -16,7 +16,7 @@ import (
 
 // SignatureSize defines the size of signatures in bytes
 const (
-	Ed25519SignatureSize    = 64
+	Ed25519SignatureSize   = 64
 	Secp256k1SignatureSize = 65
 )
 
@@ -58,7 +58,7 @@ func (s *Ed25519Signer) Sign(message []byte) ([]byte, error) {
 
 	// Hash the message first
 	hash := sha256.Sum256(message)
-	
+
 	// Sign the hash
 	signature := ed25519.Sign(s.privateKey, hash[:])
 	return signature, nil
@@ -286,7 +286,7 @@ func DeriveKey(masterKey []byte, index uint32, keyType KeyType) ([]byte, error) 
 
 	// Create HMAC from master key
 	mac := hmac.New(sha512.New, masterKey)
-	
+
 	// Add index to data
 	indexBytes := make([]byte, 4)
 	binary.BigEndian.PutUint32(indexBytes, index)

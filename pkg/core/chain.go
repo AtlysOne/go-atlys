@@ -6,29 +6,29 @@ import (
 	"sync"
 	"time"
 
-	"github.com/atlys/pkg/types"
 	"github.com/atlys/pkg/store"
+	"github.com/atlys/pkg/types"
 )
 
 type Chain struct {
 	mu sync.RWMutex
 
-	ID               string
-	blocks           []*Block
-	pendingTxs       []types.Transaction
-	height           uint64
-	lastBlockTime    time.Time
-	validators       []types.ValidatorAddress
+	ID              string
+	blocks          []*Block
+	pendingTxs      []types.Transaction
+	height          uint64
+	lastBlockTime   time.Time
+	validators      []types.ValidatorAddress
 	store           store.BlockStore
 	txPool          *TxPool
-	consensusParams  ConsensusParams
+	consensusParams ConsensusParams
 }
 
 type ConsensusParams struct {
-	BlockInterval    time.Duration
-	MaxBlockSize     uint64
-	MaxTxsPerBlock   uint64
-	ValidatorQuorum  float64
+	BlockInterval   time.Duration
+	MaxBlockSize    uint64
+	MaxTxsPerBlock  uint64
+	ValidatorQuorum float64
 }
 
 type TxPool struct {
@@ -40,8 +40,8 @@ type TxPool struct {
 func NewChain(id string, store store.BlockStore, params ConsensusParams) *Chain {
 	return &Chain{
 		ID:              id,
-		store:          store,
-		txPool:         NewTxPool(1000), // Configure pool size
+		store:           store,
+		txPool:          NewTxPool(1000), // Configure pool size
 		consensusParams: params,
 	}
 }

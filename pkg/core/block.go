@@ -11,14 +11,14 @@ import (
 )
 
 type Block struct {
-	Height        uint64
-	Timestamp     time.Time
-	PreviousHash  types.Hash
-	Transactions  []types.Transaction
-	StateRoot     types.Hash
-	ValidatorSet  []types.ValidatorAddress
-	Signature     []byte
-	Hash          types.Hash
+	Height       uint64
+	Timestamp    time.Time
+	PreviousHash types.Hash
+	Transactions []types.Transaction
+	StateRoot    types.Hash
+	ValidatorSet []types.ValidatorAddress
+	Signature    []byte
+	Hash         types.Hash
 }
 
 type BlockHeader struct {
@@ -168,7 +168,7 @@ func merkleRoot(items [][]byte) types.Hash {
 			level = append(level, items[i])
 		}
 	}
-	
+
 	hash := merkleRoot(level)
 	return hash
 }

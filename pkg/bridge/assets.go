@@ -14,11 +14,11 @@ import (
 
 // AssetManager handles cross-chain asset transfers and management
 type AssetManager struct {
-	mu            sync.RWMutex
-	assets        map[string]*Asset
-	lockedAssets  map[types.Hash]*LockedAsset
-	assetPairs    map[string]map[string]*AssetPair
-	config        *AssetConfig
+	mu           sync.RWMutex
+	assets       map[string]*Asset
+	lockedAssets map[types.Hash]*LockedAsset
+	assetPairs   map[string]map[string]*AssetPair
+	config       *AssetConfig
 }
 
 // Asset represents a registered asset across chains
@@ -35,22 +35,22 @@ type Asset struct {
 // AssetInfo contains chain-specific asset information
 type AssetInfo struct {
 	ContractAddress string
-	TotalLocked    uint64
-	TotalMinted    uint64
-	LastHeight     uint64
+	TotalLocked     uint64
+	TotalMinted     uint64
+	LastHeight      uint64
 }
 
 // LockedAsset represents assets locked for cross-chain transfer
 type LockedAsset struct {
-	TxHash          types.Hash
-	SourceChain     string
-	DestChain       string
-	Asset           string
-	Amount          uint64
-	Owner           types.Address
-	LockTime        time.Time
-	ExpirationTime  time.Time
-	Status          LockStatus
+	TxHash         types.Hash
+	SourceChain    string
+	DestChain      string
+	Asset          string
+	Amount         uint64
+	Owner          types.Address
+	LockTime       time.Time
+	ExpirationTime time.Time
+	Status         LockStatus
 }
 
 // AssetPair represents a cross-chain asset pair configuration
@@ -75,9 +75,9 @@ const (
 
 // AssetConfig contains configuration parameters for asset management
 type AssetConfig struct {
-	LockTimeout      time.Duration
-	MinLockAmount    uint64
-	MaxLockAmount    uint64
+	LockTimeout        time.Duration
+	MinLockAmount      uint64
+	MaxLockAmount      uint64
 	RateUpdateInterval time.Duration
 }
 
