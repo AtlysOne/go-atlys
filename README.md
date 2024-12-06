@@ -7,6 +7,9 @@ Implementation of the ATLAS blockchain project in Go
 
 [Click here for the go-atlys documentation](https://github.com/dewitt4/atlys-blockchain-protocol/docs/go-atlys-documentation.md)
 
+
+## Repository Structure
+
 ```
 atlys/
 ├── cmd/
