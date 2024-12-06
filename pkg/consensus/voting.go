@@ -44,43 +44,43 @@ type Vote struct {
 
 // VoteSet tracks votes for a specific height and round
 type VoteSet struct {
-	mu           sync.RWMutex
-	height       uint64
-	round        uint32
-	voteType     VoteType
-	votes        map[types.Address]*Vote
-	votedPower   uint64
-	totalPower   uint64
-	maj23Hash    *types.Hash // 2/3 majority hash
-	commits      map[types.Hash]*core.Block
-	config       *VotingConfig
+	mu         sync.RWMutex
+	height     uint64
+	round      uint32
+	voteType   VoteType
+	votes      map[types.Address]*Vote
+	votedPower uint64
+	totalPower uint64
+	maj23Hash  *types.Hash // 2/3 majority hash
+	commits    map[types.Hash]*core.Block
+	config     *VotingConfig
 }
 
 // VotingManager handles the voting process
 type VotingManager struct {
-	mu              sync.RWMutex
-	currentHeight   uint64
-	currentRound    uint32
-	voteSets        map[uint64]map[uint32]*VoteSet
-	validators      *ValidatorSet
-	config          *VotingConfig
-	timeoutConfig   *TimeoutConfig
+	mu            sync.RWMutex
+	currentHeight uint64
+	currentRound  uint32
+	voteSets      map[uint64]map[uint32]*VoteSet
+	validators    *ValidatorSet
+	config        *VotingConfig
+	timeoutConfig *TimeoutConfig
 }
 
 // VotingConfig contains configuration for voting
 type VotingConfig struct {
-	VotingPeriod        time.Duration
-	ProposalTimeout     time.Duration
-	PrevoteTimeout      time.Duration
-	PrecommitTimeout    time.Duration
-	MinVotingPower      uint64
-	MaxRounds           uint32
-	RequiredMajority    float64
+	VotingPeriod     time.Duration
+	ProposalTimeout  time.Duration
+	PrevoteTimeout   time.Duration
+	PrecommitTimeout time.Duration
+	MinVotingPower   uint64
+	MaxRounds        uint32
+	RequiredMajority float64
 }
 
 // TimeoutConfig contains timeout parameters
 type TimeoutConfig struct {
-	ProposeTimeout    time.Duration
+	ProposeTimeout   time.Duration
 	PrevoteTimeout   time.Duration
 	PrecommitTimeout time.Duration
 	CommitTimeout    time.Duration
@@ -90,12 +90,12 @@ type TimeoutConfig struct {
 func NewVotingManager(validators *ValidatorSet, config *VotingConfig) *VotingManager {
 	return &VotingManager{
 		currentHeight: 0,
-		currentRound: 0,
-		voteSets:     make(map[uint64]map[uint32]*VoteSet),
-		validators:   validators,
-		config:      config,
+		currentRound:  0,
+		voteSets:      make(map[uint64]map[uint32]*VoteSet),
+		validators:    validators,
+		config:        config,
 		timeoutConfig: &TimeoutConfig{
-			ProposeTimeout:    time.Second * 30,
+			ProposeTimeout:   time.Second * 30,
 			PrevoteTimeout:   time.Second * 30,
 			PrecommitTimeout: time.Second * 30,
 			CommitTimeout:    time.Second * 30,
@@ -117,7 +117,7 @@ func (vm *VotingManager) StartVoting(ctx context.Context, height uint64) error {
 
 	// Initialize vote sets for the new height
 	vm.voteSets[height] = make(map[uint32]*VoteSet)
-	
+
 	// Start voting rounds
 	go vm.runVotingRounds(ctx, height)
 
@@ -375,10 +375,10 @@ func (vm *VotingManager) GetVotingState() map[string]interface{} {
 	defer vm.mu.RUnlock()
 
 	return map[string]interface{}{
-		"height":        vm.currentHeight,
-		"round":         vm.currentRound,
-		"total_power":   vm.validators.GetTotalPower(),
-		"active_votes":  len(vm.voteSets[vm.currentHeight][vm.currentRound].votes),
-		"voting_power":  vm.voteSets[vm.currentHeight][vm.currentRound].votedPower,
+		"height":       vm.currentHeight,
+		"round":        vm.currentRound,
+		"total_power":  vm.validators.GetTotalPower(),
+		"active_votes": len(vm.voteSets[vm.currentHeight][vm.currentRound].votes),
+		"voting_power": vm.voteSets[vm.currentHeight][vm.currentRound].votedPower,
 	}
 }

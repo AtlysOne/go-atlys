@@ -54,7 +54,7 @@ type StateProof struct {
 
 // StateConfig contains configuration parameters for state management
 type StateConfig struct {
-	UpdateInterval     time.Duration
+	UpdateInterval    time.Duration
 	MaxPendingUpdates uint64
 	ProofExpiration   time.Duration
 	MinValidators     uint64

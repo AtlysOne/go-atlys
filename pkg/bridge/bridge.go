@@ -37,27 +37,27 @@ type TransactionStatus struct {
 	SourceConfirmations      uint64
 	DestinationConfirmations uint64
 	Status                   string
-	LastUpdateTime          time.Time
-	Error                   error
+	LastUpdateTime           time.Time
+	Error                    error
 }
 
 // Bridge manages cross-chain communication and transaction processing
 type Bridge struct {
-	mu            sync.RWMutex
-	chains        map[string]*ChainConnection
-	pendingTx     map[types.Hash]*types.Transaction
-	completedTx   map[types.Hash]*TransactionStatus
-	validatorSet  *consensus.ValidatorSet
-	stateManager  *StateManager
-	config        *BridgeConfig
+	mu           sync.RWMutex
+	chains       map[string]*ChainConnection
+	pendingTx    map[types.Hash]*types.Transaction
+	completedTx  map[types.Hash]*TransactionStatus
+	validatorSet *consensus.ValidatorSet
+	stateManager *StateManager
+	config       *BridgeConfig
 }
 
 // BridgeConfig contains configuration parameters for the bridge
 type BridgeConfig struct {
 	RequiredConfirmations uint64
-	MaxPendingTx         uint64
-	BlockTimeout         time.Duration
-	ValidatorQuorum      float64
+	MaxPendingTx          uint64
+	BlockTimeout          time.Duration
+	ValidatorQuorum       float64
 }
 
 // StateManager handles cross-chain state synchronization
@@ -219,7 +219,7 @@ func (b *Bridge) verifyCrossChainData(tx *types.Transaction) error {
 func (b *Bridge) verifyValidatorSignatures(tx *types.Transaction) error {
 	// Get required validator quorum
 	requiredValidators := uint64(float64(b.validatorSet.GetTotalPower()) * b.config.ValidatorQuorum)
-	
+
 	// Verify validator signatures
 	validatorPower := uint64(0)
 	for _, sig := range tx.ValidatorSignatures {
@@ -227,11 +227,11 @@ func (b *Bridge) verifyValidatorSignatures(tx *types.Transaction) error {
 		if !exists {
 			continue
 		}
-		
+
 		if err := validator.VerifySignature(tx.Hash(), sig.Signature); err != nil {
 			continue
 		}
-		
+
 		validatorPower += validator.Power
 	}
 
@@ -294,7 +294,7 @@ func (b *Bridge) updateTxStatus(txHash types.Hash, status string, err error) {
 			b.completedTx[txHash] = &TransactionStatus{
 				Status:         status,
 				LastUpdateTime: time.Now(),
-				Error:         err,
+				Error:          err,
 			}
 		}
 	}

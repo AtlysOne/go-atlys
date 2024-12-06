@@ -10,11 +10,11 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/libp2p/go-libp2p"
+	dht "github.com/libp2p/go-libp2p-kad-dht"
 	"github.com/libp2p/go-libp2p/core/discovery"
 	"github.com/libp2p/go-libp2p/core/host"
 	"github.com/libp2p/go-libp2p/core/peer"
 	"github.com/libp2p/go-libp2p/core/protocol"
-	dht "github.com/libp2p/go-libp2p-kad-dht"
 
 	"github.com/atlys/pkg/bridge"
 	"github.com/atlys/pkg/types"
@@ -22,9 +22,9 @@ import (
 
 type Config struct {
 	ListenAddresses []string
-	BootstrapPeers []string
-	MaxPeers       int
-	MinPeers       int
+	BootstrapPeers  []string
+	MaxPeers        int
+	MinPeers        int
 }
 
 type P2PNetwork struct {
@@ -48,10 +48,10 @@ type ProtocolHandler interface {
 }
 
 type ValidatorNode struct {
-	ID        peer.ID
-	Address   types.Address
-	LastSeen  time.Time
-	Status    NodeStatus
+	ID       peer.ID
+	Address  types.Address
+	LastSeen time.Time
+	Status   NodeStatus
 }
 
 type NodeStatus int
