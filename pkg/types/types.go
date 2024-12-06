@@ -2,26 +2,66 @@
 package types
 
 import (
-    "crypto/sha256"
-    "encoding/hex"
-    "time"
+	"crypto/sha256"
+	"encoding/hex"
+	"time"
 )
 
 type Hash [32]byte
 
 func (h Hash) String() string {
-    return hex.EncodeToString(h[:])
+	return hex.EncodeToString(h[:])
 }
 
+type Address [20]byte
+
+func (a Address) String() string {
+	return hex.EncodeToString(a[:])
+}
+
+type ValidatorAddress [20]byte
+
 type Transaction struct {
-    SourceChain      string
-    DestinationChain string
-    Sender          string
-    Receiver        string
-    Amount          uint64
-    Nonce           uint64
-    Timestamp       time.Time
-    Signature       []byte
+	SourceChain      string
+	DestinationChain string
+	Sender          string
+	Receiver        string
+	Amount          uint64
+	Nonce           uint64
+	Timestamp       time.Time
+	Signature       []byte
+	ValidatorSignatures map[Address][]byte
+	AssetSymbol    string
+}
+
+type Block struct {
+	Height        uint64
+	PreviousHash  Hash
+	Timestamp     time.Time
+	Transactions  []Transaction
+	StateRoot     Hash
+	ValidatorSet  []ValidatorAddress
+	Signature     []byte
+}
+
+func HashFromString(s string) (Hash, error) {
+	var h Hash
+	b, err := hex.DecodeString(s)
+	if err != nil {
+		return h, err
+	}
+	copy(h[:], b)
+	return h, nil
+}
+
+func AddressFromString(s string) (Address, error) {
+	var a Address
+	b, err := hex.DecodeString(s)
+	if err != nil {
+		return a, err
+	}
+	copy(a[:], b)
+	return a, nil
 }
 
 // pkg/core/block.go
