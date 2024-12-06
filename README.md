@@ -1,11 +1,16 @@
 # go-atlys
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Go Report Card](https://goreportcard.com/badge/github.com/atlys/go-atlys)](https://goreportcard.com/report/github.com/atlys/go-atlys)
+[![GoDoc](https://godoc.org/github.com/atlys/go-atlys?status.svg)](https://godoc.org/github.com/atlys/go-atlys)
+
 Implementation of the ATLAS blockchain project in Go
 
 [ATLYS Blockchain Protocol](https://github.com/dewitt4/atlys-blockchain-protocol)
 
 ## Documentation
 
-[Click here for the go-atlys documentation](https://github.com/dewitt4/atlys-blockchain-protocol/docs/go-atlys-documentation.md)
+[Click here for the go-atlys documentation](https://github.com/AtlysOne/go-atlys/blob/main/docs/go-atlys-documentation.md)
 
 
 ## Repository Structure
