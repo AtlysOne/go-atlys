@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/atlys/pkg/types"
+	"github.com/AtlysOne/go-atlys"
 )
 
 type Transaction struct {
