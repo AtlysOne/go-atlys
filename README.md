@@ -3,6 +3,10 @@ Implementation of the ATLAS blockchain project in Go
 
 [ATLYS Blockchain Protocol](https://github.com/dewitt4/atlys-blockchain-protocol)
 
+## Documentation
+
+[Click here for the go-atlys documentation](https://github.com/dewitt4/atlys-blockchain-protocol/docs/go-atlys-documentation.md)
+
 ```
 atlys/
 ├── cmd/
